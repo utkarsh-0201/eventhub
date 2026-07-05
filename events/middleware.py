@@ -1,7 +1,6 @@
 import logging
-from typing import Callable, TypedDict
+from typing import Any, TypedDict
 
-from django.http import HttpRequest, HttpResponse
 
 logger = logging.getLogger(__name__)
 
@@ -15,15 +14,16 @@ class RequestLogEntry(TypedDict):
 class RequestLoggingMiddleware:
     """Middleware that logs incoming requests and outgoing responses."""
 
-    def __init__(self, get_response: Callable[[HttpRequest], HttpResponse]) -> None:
-        """Store the next callable in the middleware chain.
+    def __init__(self, get_response: Any) -> None:
+        """
+        Store the next callable in the middleware chain.
 
         Args:
             get_response: The next middleware or view callable.
         """
         self.get_response = get_response
 
-    def __call__(self, request: HttpRequest) -> HttpResponse:
+    def __call__(self, request: Any) -> Any:
         """Log request start and end around the view execution.
 
         Args:
